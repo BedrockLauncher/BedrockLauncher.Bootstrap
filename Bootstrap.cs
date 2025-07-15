@@ -20,7 +20,7 @@ namespace BedrockLauncher.Bootstrap
         {
             Thread.Sleep(500);
             bool result = false;
-            string minimumVersionS = "6.0";
+            string minimumVersionS = "8.0";
             try
             {
                 using (RegistryKey key = Registry.LocalMachine.OpenSubKey("SOFTWARE\\WOW6432Node\\dotnet\\Setup\\InstalledVersions\\x64\\sharedfx\\Microsoft.WindowsDesktop.App"))
@@ -125,9 +125,12 @@ namespace BedrockLauncher.Bootstrap
 
             void StartProcess(string path)
             {
-                var startInfo = new ProcessStartInfo(path);
-                startInfo.Arguments = string.Join(" ", Environment.GetCommandLineArgs());
-                startInfo.UseShellExecute = true;
+                var startInfo = new ProcessStartInfo(path)
+                {
+                    //Arguments = string.Join(" ", Environment.GetCommandLineArgs()),
+                    UseShellExecute = true,
+                    Verb = "runas"
+                };
                 Process.Start(startInfo);
                 Application.Exit();
             }
